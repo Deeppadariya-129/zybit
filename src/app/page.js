@@ -6,7 +6,6 @@ import { Canvas } from "@react-three/fiber";
 import React, { useEffect } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { useMotionTemplate, useMotionValue, motion, animate } from "framer-motion";
-import Logo from '../../public/zybit-logo.svg'
 
 const COLORS_TOP = ["#13FFAA", "#1E67C6", "#CE84CF", "#DD335C"];
 
@@ -20,23 +19,26 @@ export default function Home() {
     window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`, "_blank");
   };
   
-
-  if (typeof window === 'undefined') return null; // Prevent SSR entirely for this component
-
+  // ✅ Always initialize motion values and hooks outside conditions
   const color = useMotionValue(COLORS_TOP[0]);
 
   useEffect(() => {
+    // ✅ Animate the color regardless of SSR
     animate(color, COLORS_TOP, {
       ease: "easeInOut",
       duration: 10,
       repeat: Infinity,
       repeatType: "mirror",
     });
-  }, []);
+  }, [color]); // ✅ Proper dependency
 
+  // ✅ Define these outside any conditions
   const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
   const border = useMotionTemplate`1px solid ${color}`;
   const boxShadow = useMotionTemplate`0px 4px 24px ${color}`;
+
+  // ✅ Prevent SSR rendering by using useEffect or checking typeof window where necessary
+  if (typeof window === 'undefined') return null; // This is fine now
 
   return (
     <motion.section
@@ -54,7 +56,7 @@ export default function Home() {
         Something Exciting is Coming Your Way
         </h1>
         <p className="my-6 max-w-xl text-center text-base leading-relaxed md:text-lg md:leading-relaxed">
-        We're working on something special to bring festive magic to your doorstep. Stay tuned for updates 
+        We're working on something special to bring festive magic to your doorstep. Stay tuned for updates.
         </p>
         <motion.button
           style={{
