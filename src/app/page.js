@@ -56,7 +56,7 @@ export default function Home() {
         Something Exciting is Coming Your Way
         </h1>
         <p className="my-6 max-w-xl text-center text-base leading-relaxed md:text-lg md:leading-relaxed">
-        We're working on something special to bring festive magic to your doorstep. Stay tuned for updates.
+        We are working on something special to bring festive magic to your doorstep. Stay tuned for updates.
         </p>
         <motion.button
           style={{
